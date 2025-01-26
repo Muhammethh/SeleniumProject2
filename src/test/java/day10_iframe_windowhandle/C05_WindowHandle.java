@@ -62,4 +62,51 @@ public class C05_WindowHandle extends TestBase {
 
     }
 
+
+    //Reusable method ile window handle
+    @Test
+    void test02() {
+        // https://the-internet.herokuapp.com/windows adresine gidin.
+        driver.get("https://the-internet.herokuapp.com/windows");
+
+        // İlk sayfasının Handle değerini alın yazdırın.
+
+
+        // İlk sayfadaki textin “Opening a new window” olduğunu test edin.
+        String actualText = driver.findElement(By.xpath("//h3")).getText();
+        Assertions.assertEquals("Opening a new window",actualText);
+
+        // İlk sayfa Title’ının “The Internet” olduğunu test edin.
+        Assertions.assertEquals("The Internet",driver.getTitle());
+
+        // “Click Here” butonuna tıklayın.
+        driver.findElement(By.partialLinkText("Click Here")).click();
+
+
+        /*
+        Handle değeri ilk sayfaya eşit olmayana geçiş yap diyerek kontorlümüz dışında açılan sayfaya driverı geçirdik
+        ve daha sonra da geçtiğimiz sayfanın handle değerini de aldık
+         */
+
+        waitForSecond(2);
+        // İkinci sayfa Title’ının “New Window” olduğunu test edin.
+        switchToWindow(1);
+        waitForSecond(2);
+        Assertions.assertEquals("New Window",driver.getTitle());
+
+        // İlk sayfaya dönün ve Title’ının “The Internet” olduğunu test edin.
+        switchToWindow(0);
+        waitForSecond(2);
+        Assertions.assertEquals("The Internet",driver.getTitle());
+
+        // İkinci sayfaya tekrar geçin.
+        switchToWindow(1);
+        waitForSecond(2);
+
+        // İlk sayfaya tekrar dönün.
+        switchToWindow(0);
+        waitForSecond(2);
+
+    }
+
 }
